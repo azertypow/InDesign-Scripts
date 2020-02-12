@@ -1,0 +1,1 @@
+﻿main();function main() {	var myDocument = app.activeDocument;	var myPages = myDocument.pages;	for (myCounter = 0; myCounter <= myDocument.pages.length - 1; myCounter++) {		myPage = myPages.item(myCounter);		myDocument.align(myPage.pageItems, AlignOptions.LEFT_EDGES);	}}
