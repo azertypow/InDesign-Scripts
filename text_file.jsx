@@ -64,7 +64,7 @@ function myDisplayDialog(myTextFile) {
 // function to loop over text
 function loopOverText(text, rows, columns) {
     var coordinates = createMap(20, 20);
-    //$.writeln(coordinates);
+    $.writeln(coordinates);
 
     for (var i = 0; i < coordinates.length - 1; i++) {
         for (var j = 0; j < coordinates[i].length - 1; j++) {
@@ -85,7 +85,19 @@ function loopOverText(text, rows, columns) {
 }
 
 // function to create map array
-function createMap(width, height, rowCount, columnCount) {
+function createMap(width, height, columnCount, rowCount) {
+    var map = [];
+
+    for (var x = 0; x < width; x++) {
+        map[x] = []; // set up inner array
+        for (var y = 0; y < height; y++) {
+            addCell(map, x, y);
+        }
+    }
+    return map;
+}
+
+/*function createMap(width, height, rowCount, columnCount) {
     var map = [];
     for (var x = 0; x < columnCount; x++) {
         map[x] = []; // set up inner array
@@ -94,7 +106,7 @@ function createMap(width, height, rowCount, columnCount) {
         }
     }
     return map;
-}
+}*/
 
 // function to add cell to map
 function addCell(map, x, y) {
@@ -102,7 +114,8 @@ function addCell(map, x, y) {
 }
 
 function cell(x, y) {
-    return [x + 1, y + 1];
+    // Todo: Figure out what to put here !
+    return [myPageWidth / x, myPageHeight / y];
 }
 
 // Function to output grid coordinates
