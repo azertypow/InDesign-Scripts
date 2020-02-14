@@ -2,8 +2,18 @@ main();
 
 // general variable
 var myLayer;
+var myDocument;
+
+var myPageWidth;
+var myPageHeight;
 
 function main() {
+    myDocument = app.activeDocument;
+    myPageWidth = myDocument.documentPreferences.pageWidth;
+    myPageHeight = myDocument.documentPreferences.pageHeight;
+    //$.writeln(myPageWidth/2);
+    //$.writeln(myPageHeight/2);
+
     //Make certain that user interaction (display of dialogs, etc.) is turned on.
     app.scriptPreferences.userInteractionLevel = UserInteractionLevels.interactWithAll;
     // acceptable extensions
@@ -43,7 +53,7 @@ function myDisplayDialog(myTextFile) {
         myCreateNumberedLayer("text ");
 
         // read text file
-        loopOverText(readTextFile(myTextFile));
+        loopOverText(readTextFile(myTextFile), myNumberOfRows, myNumberOfColumns);
     } else {
         myDialog.destroy();
     }
@@ -51,24 +61,99 @@ function myDisplayDialog(myTextFile) {
 
 /* ---- FUNCTIONS ----*/
 
+// function to loop over text
+function loopOverText(text, rows, columns) {
+    var coordinates = createMap(20, 20);
+    //$.writeln(coordinates);
+
+    for (var i = 0; i < coordinates.length - 1; i++) {
+        for (var j = 0; j < coordinates[i].length - 1; j++) {
+            if (i < text.length) {
+                $.write(coordinates[i][j][0]);
+                $.write("-");
+                $.writeln(coordinates[i][j][1]);
+                createTextFrame(
+                    text.charAt(i),
+                    coordinates[i][j][0],
+                    coordinates[i][j][1],
+                    coordinates[i][j][0] + 20,
+                    coordinates[i][j][1] + 20
+                );
+            }
+        }
+    }
+}
+
+// function to create map array
+function createMap(width, height, rowCount, columnCount) {
+    var map = [];
+    for (var x = 0; x < columnCount; x++) {
+        map[x] = []; // set up inner array
+        for (var y = 0; y < rowCount; y++) {
+            addCell(map, x, y);
+        }
+    }
+    return map;
+}
+
+// function to add cell to map
+function addCell(map, x, y) {
+    map[x][y] = cell(x, y); // create a new object on x and y
+}
+
+function cell(x, y) {
+    return [x + 1, y + 1];
+}
+
+// Function to output grid coordinates
+// takes number of columns and rows
+// returns a 2D array of coordinates
+function gridCoords(rows, columns) {
+    /*
+    // horizontal coords
+    var xCoords = lengthCoords(myPageHeight, rows);
+    // vertical coords
+    var yCoords = lengthCoords(myPageWidth, columns);
+
+    // create 2D array
+    for (var i = 0; i < xCoords.length; i++) {
+        gridCoords.push([xCoords[i], yCoords[i]]);
+    }*/
+
+    var gridCoords = [];
+
+    for (var i = 0; i < myPageWidth; i++) {
+        for (var j = 0; j < myPageHeight; j++) {
+            gridCoords.push([i, j]);
+        }
+    }
+
+    return gridCoords;
+}
+
+// Function to output coords for a given length divided by a given number
+// outputs an array of ints
+function lengthCoords(length, divisions) {
+    var coordsArray = [];
+    for (var i = 0; i < length; i++) {
+        if (i % Math.round(length / divisions) === 0) {
+            coordsArray.push(i);
+        }
+    }
+    return coordsArray;
+}
+
 // Function to create a text frame :
 // takes a string, creates a frame of text with this string
 function createTextFrame(string, y1, x1, y2, x2) {
-    var myFrame = app.activeDocument.textFrames.add(myLayer, undefined, undefined, {
-        geometricBounds: [y1, x1, y2, x2],
+    //$.writeln(myDocument);
+    var myFrame = myDocument.textFrames.add(myLayer, undefined, undefined, {
+        geometricBounds: [y1, x1, x2, y2],
         contents: string
     });
     // fit frame to content
     myFrame.fit(FitOptions.FRAME_TO_CONTENT);
     //myFrame.resolve(AnchorPoint.CENTER_ANCHOR, CoordinateSpaces.INNER_COORDINATES);
-}
-
-// function to loop over text
-function loopOverText(text) {
-    for (var i = 0; i < text.length; i++) {
-        //$.writeln(text.charAt(i));
-        createTextFrame(text.charAt(i), i, i, i+20, i+20);
-    }
 }
 
 // Function to read text file : takes file location, returns file text
