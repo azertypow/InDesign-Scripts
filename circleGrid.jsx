@@ -16,16 +16,13 @@ function main() {
 
     //Make certain that user interaction (display of dialogs, etc.) is turned on.
     app.scriptPreferences.userInteractionLevel = UserInteractionLevels.interactWithAll;
-    // acceptable extensions
-    myExtensions = [".txt", ".md"];
-    //Display the folder browser.
-    var textFile = File.openDialog("Select a text file", "");
 
     // display dialog box
-    myDisplayDialog(textFile);
+    //myDisplayDialog(textFile);
+    createGrid(10, 10);
 }
 
-/* ---- FUNCTIONS ---- */
+/* ---- DIALOG ---- */
 
 // Function to display dialog box
 function myDisplayDialog(myTextFile) {
@@ -62,27 +59,16 @@ function myDisplayDialog(myTextFile) {
 /* ---- FUNCTIONS ----*/
 
 // function to loop over text
-function loopOverText(text, rows, columns) {
+function createGrid(rows, columns) {
     var coordinates = createMap(myPageWidth, myPageHeight, 10, 10);
     //$.writeln(coordinates);
 
     for (var x = 0; x < coordinates.length; x++) {
-        if (x <= text.length) {
-            for (var y = 0; y < coordinates[x].length; y++) {
-                //$.writeln(coordinates[x][y]);
-                //$.write("-");
-                //$.writeln(coordinates[x][y]);
-                $.writeln(text.charAt(x));
-
-                /*
-                createTextFrame(
-                    text.charAt(x),
-                    coordinates[x][y][1],
-                    coordinates[x][y][0],
-                    coordinates[x][y][1] + 20,
-                    coordinates[x][y][0] + 20
-                );*/
-            }
+        for (var y = 0; y < coordinates[x].length; y++) {
+            app.activeWindow.activeSpread.ovals.add({
+                geometricBounds: [coordinates[x][y][1], coordinates[x][y][0], coordinates[x][y][1]+5, coordinates[x][y][0]+5],
+                fillColor: "Black"
+            });
         }
     }
 }
@@ -98,9 +84,6 @@ function createMap(width, height, columnCount, rowCount) {
             map[x][y] = [Math.round((width / columnCount) * x), Math.round((height / rowCount) * y)];
         }
     }
-    // flatten array
-    map.flat(2);
-
     return map;
 }
 
