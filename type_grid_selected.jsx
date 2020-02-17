@@ -13,6 +13,9 @@ var myMargins;
 var marginWidth;
 var marginHeight;
 
+var textFrame;
+var paragraphStyle;
+
 function main() {
     myDocument = app.activeDocument;
     myPageWidth = myDocument.documentPreferences.pageWidth;
@@ -25,19 +28,28 @@ function main() {
 
     //Make certain that user interaction (display of dialogs, etc.) is turned on.
     app.scriptPreferences.userInteractionLevel = UserInteractionLevels.interactWithAll;
-    // acceptable extensions
-    myExtensions = [".txt", ".md"];
-    //Display the folder browser.
-    var textFile = File.openDialog("Select a text file", "");
 
-    // display dialog box
-    myDisplayDialog(textFile);
+    // if there is something selected
+    if (myDocument.selection !== undefined && app.selection[0] !== undefined) {
+        textFrame = app.selection[0];
+
+        var textContent = textFrame.contents;
+        var texts = textFrame.texts[0];
+        paragraphStyle = texts.appliedParagraphStyle;
+
+        //alert(texts.appliedParagraphStyle.name);
+
+        // display dialog box
+        myDisplayDialog(textContent);
+
+        //createTextFrame(content, texts.appliedParagraphStyle, 0, 0, 100, 100);
+    }
 }
 
 /* ---- FUNCTIONS ---- */
 
 // Function to display dialog box
-function myDisplayDialog(myTextFile) {
+function myDisplayDialog(textContent) {
     var myLabelWidth = 90;
     var myDialog = app.dialogs.add({name: "Grid Layout"});
     with (myDialog.dialogColumns.add()) {
@@ -62,7 +74,7 @@ function myDisplayDialog(myTextFile) {
         myCreateNumberedLayer("text ");
 
         // read text file
-        loopOverText(readTextFile(myTextFile), myNumberOfRows, myNumberOfColumns);
+        loopOverText(textContent, myNumberOfRows, myNumberOfColumns);
     } else {
         myDialog.destroy();
     }
@@ -84,6 +96,7 @@ function loopOverText(text, rows, columns) {
 
             createTextFrame(
                 text.charAt(i),
+                paragraphStyle,
                 coordinates[i][1],
                 coordinates[i][0],
                 coordinates[i][1] + 20,
@@ -132,14 +145,19 @@ function lengthCoords(length, divisions) {
 
 // Function to create a text frame :
 // takes a string, creates a frame of text with this string
-function createTextFrame(string, y1, x1, y2, x2) {
+function createTextFrame(string, format, y1, x1, y2, x2) {
     //$.writeln(myDocument);
     var myFrame = myDocument.textFrames.add(myLayer, undefined, undefined, {
         geometricBounds: [y1, x1, y2, x2],
         contents: string
     });
+
+    // apply paragraph style
+    myFrame.texts[0].appliedParagraphStyle = format;
+
     // fit frame to content
-    //myFrame.fit(FitOptions.FRAME_TO_CONTENT);
+    myFrame.fit(FitOptions.FRAME_TO_CONTENT);
+
     //myFrame.resolve(AnchorPoint.CENTER_ANCHOR, CoordinateSpaces.INNER_COORDINATES);
 }
 
