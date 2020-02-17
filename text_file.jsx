@@ -1,16 +1,27 @@
 main();
 
-// general variable
+// general variables
 var myLayer;
 var myDocument;
 
 var myPageWidth;
 var myPageHeight;
 
+var myPage;
+
+var myMargins;
+
 function main() {
     myDocument = app.activeDocument;
     myPageWidth = myDocument.documentPreferences.pageWidth;
     myPageHeight = myDocument.documentPreferences.pageHeight;
+    myPage = myDocument.layoutWindows[0].activePage;
+
+    myMargins = myPage.marginPreferences;
+    alert(myMargins.top);
+    alert(myMargins.bottom);
+    alert(myMargins.left);
+    alert(myMargins.right);
     //$.writeln(myPageWidth/2);
     //$.writeln(myPageHeight/2);
 
@@ -75,38 +86,19 @@ function loopOverText(text, rows, columns) {
 
             createTextFrame(
                 text.charAt(i),
-                coordinates[i][1],
-                coordinates[i][0],
+                coordinates[i][1] - 10,
+                coordinates[i][0] - 10,
                 coordinates[i][1] + 20,
                 coordinates[i][0] + 20
             );
-        }
 
-        /*app.activeWindow.activeSpread.ovals.add({
-            geometricBounds: [coordinates[i][0], coordinates[i][1], coordinates[i][0]+5, coordinates[i][1]+5],
-            fillColor: "Black"
-        });*/
+            myDocument.ovals.add(myLayer, undefined, undefined, {
+                geometricBounds: [coordinates[i][1] - 5, coordinates[i][0] - 5, coordinates[i][1] + 10, coordinates[i][0] + 10],
+                fill: "Black"
+            });
+
+        }
     }
-
-    /*
-    for (var x = 0; x < coordinates.length; x++) {
-        if (x <= text.length) {
-            for (var y = 0; y < coordinates[x].length; y++) {
-                //$.writeln(coordinates[x][y]);
-                //$.write("-");
-                //$.writeln(coordinates[x][y]);
-                $.writeln(text.charAt(x));
-
-                createTextFrame(
-                    text.charAt(x),
-                    coordinates[x][y][1],
-                    coordinates[x][y][0],
-                    coordinates[x][y][1] + 20,
-                    coordinates[x][y][0] + 20
-                );
-            }
-        }
-    }*/
 }
 
 // function to create a flat map array
@@ -114,9 +106,9 @@ function createMap(width, height, columnCount, rowCount) {
     var map = [];
     var counter = 0;
 
-    for (var x = 0; x < columnCount; x++) {
+    for (var x = 0; x < columnCount + 1; x++) {
         //map[x] = []; // set up inner array
-        for (var y = 0; y < rowCount; y++) {
+        for (var y = 0; y < rowCount + 1; y++) {
             //addCell(map, x, y);
             map[counter] = [Math.round((width / columnCount) * x), Math.round((height / rowCount) * y)];
             counter++;
@@ -124,53 +116,6 @@ function createMap(width, height, columnCount, rowCount) {
     }
 
     return map;
-}
-
-/*function createMap(width, height, rowCount, columnCount) {
-    var map = [];
-    for (var x = 0; x < columnCount; x++) {
-        map[x] = []; // set up inner array
-        for (var y = 0; y < rowCount; y++) {
-            addCell(map, x, y);
-        }
-    }
-    return map;
-}*/
-
-// function to add cell to map
-function addCell(map, x, y) {
-    map[x][y] = cell(x, y); // create a new object on x and y
-}
-
-function cell(x, y) {
-    // Todo: Figure out what to put here !
-    return [myPageWidth / x, myPageHeight / y];
-}
-
-// Function to output grid coordinates
-// takes number of columns and rows
-// returns a 2D array of coordinates
-function gridCoords(rows, columns) {
-    /*
-    // horizontal coords
-    var xCoords = lengthCoords(myPageHeight, rows);
-    // vertical coords
-    var yCoords = lengthCoords(myPageWidth, columns);
-
-    // create 2D array
-    for (var i = 0; i < xCoords.length; i++) {
-        gridCoords.push([xCoords[i], yCoords[i]]);
-    }*/
-
-    var gridCoords = [];
-
-    for (var i = 0; i < myPageWidth; i++) {
-        for (var j = 0; j < myPageHeight; j++) {
-            gridCoords.push([i, j]);
-        }
-    }
-
-    return gridCoords;
 }
 
 // Function to output coords for a given length divided by a given number
