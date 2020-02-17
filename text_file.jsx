@@ -63,9 +63,32 @@ function myDisplayDialog(myTextFile) {
 
 // function to loop over text
 function loopOverText(text, rows, columns) {
-    var coordinates = createMap(myPageWidth, myPageHeight, 10, 10);
+    var coordinates = createMap(myPageWidth, myPageHeight, rows, columns);
     //$.writeln(coordinates);
 
+    // loop over text char by char
+    for (var i = 0; i < text.length; i++) {
+        if (i < coordinates.length) {
+            //$.write(text.charAt(i));
+            //$.write(' : ');
+            //$.writeln(coordinates[i]);
+
+            createTextFrame(
+                text.charAt(i),
+                coordinates[i][1],
+                coordinates[i][0],
+                coordinates[i][1] + 20,
+                coordinates[i][0] + 20
+            );
+        }
+
+        /*app.activeWindow.activeSpread.ovals.add({
+            geometricBounds: [coordinates[i][0], coordinates[i][1], coordinates[i][0]+5, coordinates[i][1]+5],
+            fillColor: "Black"
+        });*/
+    }
+
+    /*
     for (var x = 0; x < coordinates.length; x++) {
         if (x <= text.length) {
             for (var y = 0; y < coordinates[x].length; y++) {
@@ -74,32 +97,31 @@ function loopOverText(text, rows, columns) {
                 //$.writeln(coordinates[x][y]);
                 $.writeln(text.charAt(x));
 
-                /*
                 createTextFrame(
                     text.charAt(x),
                     coordinates[x][y][1],
                     coordinates[x][y][0],
                     coordinates[x][y][1] + 20,
                     coordinates[x][y][0] + 20
-                );*/
+                );
             }
         }
-    }
+    }*/
 }
 
-// function to create map array
+// function to create a flat map array
 function createMap(width, height, columnCount, rowCount) {
     var map = [];
+    var counter = 0;
 
     for (var x = 0; x < columnCount; x++) {
-        map[x] = []; // set up inner array
+        //map[x] = []; // set up inner array
         for (var y = 0; y < rowCount; y++) {
             //addCell(map, x, y);
-            map[x][y] = [Math.round((width / columnCount) * x), Math.round((height / rowCount) * y)];
+            map[counter] = [Math.round((width / columnCount) * x), Math.round((height / rowCount) * y)];
+            counter++;
         }
     }
-    // flatten array
-    map.flat(2);
 
     return map;
 }
@@ -168,11 +190,11 @@ function lengthCoords(length, divisions) {
 function createTextFrame(string, y1, x1, y2, x2) {
     //$.writeln(myDocument);
     var myFrame = myDocument.textFrames.add(myLayer, undefined, undefined, {
-        geometricBounds: [y1, x1, x2, y2],
+        geometricBounds: [y1, x1, y2, x2],
         contents: string
     });
     // fit frame to content
-    myFrame.fit(FitOptions.FRAME_TO_CONTENT);
+    //myFrame.fit(FitOptions.FRAME_TO_CONTENT);
     //myFrame.resolve(AnchorPoint.CENTER_ANCHOR, CoordinateSpaces.INNER_COORDINATES);
 }
 
