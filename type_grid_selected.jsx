@@ -55,26 +55,26 @@ function myDisplayDialog(textContent) {
     with (myDialog.dialogColumns.add()) {
         with (dialogRows.add()) {
             with (dialogColumns.add()) {
-                staticTexts.add({staticLabel: "Rows:", minWidth: myLabelWidth});
-                staticTexts.add({staticLabel: "Columns:", minWidth: myLabelWidth});
+                staticTexts.add({staticLabel: "Divisions:", minWidth: myLabelWidth});
+                //staticTexts.add({staticLabel: "Columns:", minWidth: myLabelWidth});
             }
             with (dialogColumns.add()) {
                 var myNumberOfRowsField = integerEditboxes.add({editValue: 2});
-                var myNumberOfColumnsField = integerEditboxes.add({editValue: 2});
+                //var myNumberOfColumnsField = integerEditboxes.add({editValue: 2});
             }
         }
     }
     var myResult = myDialog.show();
     if (myResult == true) {
         var myNumberOfRows = myNumberOfRowsField.editValue;
-        var myNumberOfColumns = myNumberOfColumnsField.editValue;
+        //var myNumberOfColumns = myNumberOfColumnsField.editValue;
         myDialog.destroy();
 
         // create layer
         myCreateNumberedLayer("text ");
 
         // read text file
-        loopOverText(textContent, myNumberOfRows, myNumberOfColumns);
+        loopOverText(textContent, myNumberOfRows, myNumberOfRows);
     } else {
         myDialog.destroy();
     }
