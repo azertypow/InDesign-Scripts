@@ -31,6 +31,9 @@ function main() {
 
         createTextFrame(content, texts.appliedParagraphStyle, 0, 0, 100, 100);
     }
+    else {
+        alert("No valid selection, please select a text frame");
+    }
 }
 
 

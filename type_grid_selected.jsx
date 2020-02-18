@@ -29,20 +29,30 @@ function main() {
     //Make certain that user interaction (display of dialogs, etc.) is turned on.
     app.scriptPreferences.userInteractionLevel = UserInteractionLevels.interactWithAll;
 
-    // if there is something selected
+    // get selection
     if (myDocument.selection !== undefined && app.selection[0] !== undefined) {
-        textFrame = app.selection[0];
+        if (myDocument.selection.length === 1) {
+            if (app.selection[0].toString() === "[object TextFrame]") {
+                textFrame = app.selection[0];
 
-        var textContent = textFrame.contents;
-        var texts = textFrame.texts[0];
-        paragraphStyle = texts.appliedParagraphStyle;
+                var textContent = textFrame.contents;
+                var texts = textFrame.texts[0];
+                paragraphStyle = texts.appliedParagraphStyle;
 
-        //alert(texts.appliedParagraphStyle.name);
+                //alert(texts.appliedParagraphStyle.name);
 
-        // display dialog box
-        myDisplayDialog(textContent);
+                // display dialog box
+                myDisplayDialog(textContent);
 
-        //createTextFrame(content, texts.appliedParagraphStyle, 0, 0, 100, 100);
+                //createTextFrame(content, texts.appliedParagraphStyle, 0, 0, 100, 100);
+            } else {
+                alert("Selection not valid, please select a text frame");
+            }
+        } else {
+            alert("Too many selected items, please select only one text frame");
+        }
+    } else {
+        alert("No selection, please select a text frame");
     }
 }
 
