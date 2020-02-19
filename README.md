@@ -1,6 +1,6 @@
 ## Adobe InDesign Scripts
 
-### word_jumble.jsx
+### word_jumble_1.0.jsx
 - Places words randomly on a grid of coordinates
 - Words can be either vertical or horizontal
 
