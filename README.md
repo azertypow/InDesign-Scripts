@@ -1,16 +1,14 @@
-## Adobe InDesign Scripts
+# Adobe InDesign Scripts
 
-### word_jumble_1.0.jsx
-- Places words randomly on a grid of coordinates
-- Words can be either vertical or horizontal
+This first release contains stack_letters.jsx & functions.js
 
+### Installation
 
-### __grid_layout.jsx
+- Open the script window:  
+Menu ```Window > Utilities > Scripts```  
 
-- Create guides according to a user prompt
+- Right click on the "User" folder then click on ```Reveal in Finder```  
 
+![open script folder](https://user-images.githubusercontent.com/590318/74849390-ef858380-5338-11ea-900d-da1c49825e83.png)
 
-
-### text_file.jsx
-
-- Asks the user to choose a text file
+- Copy the scripts in the user folder
