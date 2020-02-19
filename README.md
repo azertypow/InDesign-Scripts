@@ -1,7 +1,5 @@
 # Adobe InDesign Scripts
 
-This first release contains stack_letters.jsx & functions.js
-
 ### Installation
 
 - Open the script window:  
