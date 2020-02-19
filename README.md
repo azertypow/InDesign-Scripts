@@ -11,4 +11,4 @@ Menu ```Window > Utilities > Scripts```
 
 - Copy the scripts in the user folder
 
-Go [here](https://github.com/chalas-ch/InDesign-Scripts/releases) for latest releases of working scripts.
+Go to [Releases](https://github.com/chalas-ch/InDesign-Scripts/releases) for latest releases of working scripts.
