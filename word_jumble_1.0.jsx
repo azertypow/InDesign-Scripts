@@ -5,8 +5,6 @@ main();
 var height_divisions;
 var width_divisions;
 
-// DO NOT EDIT BELOW IF YOU DO NOT KNOW WHAT YOU ARE DOING
-
 // general variables
 var myLayer;
 var myDocument;
@@ -46,7 +44,7 @@ function main() {
         if (myDocument.selection.length === 1) {
             if (app.selection[0].toString() === "[object TextFrame]") {
 
-                var divisions = myDisplayDialog();
+                var dialogValues = myDisplayDialog();
 
                 textFrame = app.selection[0];
 
@@ -55,13 +53,17 @@ function main() {
                 paragraphStyle = texts.appliedParagraphStyle;
 
                 // create flat map
-                var flatMap = createFlatMap(marginWidth, marginHeight, divisions, divisions);
+                var flatMap = createFlatMap(marginWidth, marginHeight, dialogValues.divisions, dialogValues.divisions);
+
+                // Draw guide grid
+                if (dialogValues.guideGrid === true)
+                {
+                    var guideLayer = createNumberedLayer("guides");
+                    drawGuideGrid(guideLayer, marginWidth, marginHeight, dialogValues.divisions, dialogValues.divisions);
+                }
 
                 // create new layer
                 var jumbleLayer = createNumberedLayer("jumble");
-                var guideLayer = createNumberedLayer("guides");
-                // Draw guide grid
-                drawGuideGrid(guideLayer, marginWidth, marginHeight, divisions, divisions);
 
                 // loop over words
                 for (var i = 0; i < textFrame.words.length; i++) {
@@ -110,14 +112,28 @@ function myDisplayDialog() {
                 //var myNumberOfColumnsField = integerEditboxes.add({editValue: 2});
             }
         }
+
+        with (dialogRows.add()) {
+            staticTexts.add({staticLabel: "Options:"});
+        }
+        with (dialogRows.add()) {
+            var drawGuideGridField = checkboxControls.add({
+                staticLabel: "Draw Guide Grid",
+                checkedState: false
+            });
+        }
     }
     var myResult = myDialog.show();
     if (myResult == true) {
+        var drawGuideGrid = drawGuideGridField.checkedState;
         var divisions = myNumberOfRowsField.editValue;
         //var myNumberOfColumns = myNumberOfColumnsField.editValue;
         myDialog.destroy();
 
-        return divisions;
+        return {
+            guideGrid: drawGuideGrid,
+            divisions: divisions,
+        };
 
         // create layer
     } else {
