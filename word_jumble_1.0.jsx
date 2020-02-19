@@ -46,6 +46,8 @@ function main() {
         if (myDocument.selection.length === 1) {
             if (app.selection[0].toString() === "[object TextFrame]") {
 
+                var divisions = myDisplayDialog();
+
                 textFrame = app.selection[0];
 
                 //var textContent = textFrame.contents;
@@ -53,13 +55,13 @@ function main() {
                 paragraphStyle = texts.appliedParagraphStyle;
 
                 // create flat map
-                var flatMap = createFlatMap(marginWidth, marginHeight, height_divisions, width_divisions);
+                var flatMap = createFlatMap(marginWidth, marginHeight, divisions, divisions);
 
                 // create new layer
                 var jumbleLayer = createNumberedLayer("jumble");
                 var guideLayer = createNumberedLayer("guides");
                 // Draw guide grid
-                drawGuideGrid(guideLayer, marginWidth, marginHeight, height_divisions, width_divisions);
+                drawGuideGrid(guideLayer, marginWidth, marginHeight, divisions, divisions);
 
                 // loop over words
                 for (var i = 0; i < textFrame.words.length; i++) {
@@ -91,4 +93,34 @@ function main() {
         alert("No selection, please select a text frame");
     }
 
+}
+
+// Function to display dialog box
+function myDisplayDialog() {
+    var myLabelWidth = 90;
+    var myDialog = app.dialogs.add({name: "Grid Layout"});
+    with (myDialog.dialogColumns.add()) {
+        with (dialogRows.add()) {
+            with (dialogColumns.add()) {
+                staticTexts.add({staticLabel: "Divisions:", minWidth: myLabelWidth});
+                //staticTexts.add({staticLabel: "Columns:", minWidth: myLabelWidth});
+            }
+            with (dialogColumns.add()) {
+                var myNumberOfRowsField = integerEditboxes.add({editValue: 2});
+                //var myNumberOfColumnsField = integerEditboxes.add({editValue: 2});
+            }
+        }
+    }
+    var myResult = myDialog.show();
+    if (myResult == true) {
+        var divisions = myNumberOfRowsField.editValue;
+        //var myNumberOfColumns = myNumberOfColumnsField.editValue;
+        myDialog.destroy();
+
+        return divisions;
+
+        // create layer
+    } else {
+        myDialog.destroy();
+    }
 }
