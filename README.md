@@ -10,3 +10,5 @@ Menu ```Window > Utilities > Scripts```
 ![open script folder](https://user-images.githubusercontent.com/590318/74849390-ef858380-5338-11ea-900d-da1c49825e83.png)
 
 - Copy the scripts in the user folder
+
+Go to [](https://github.com/chalas-ch/InDesign-Scripts/releases) for latest releases of working scripts.
