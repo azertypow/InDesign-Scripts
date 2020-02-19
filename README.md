@@ -19,4 +19,4 @@ Go to [Releases](https://github.com/chalas-ch/InDesign-Scripts/releases) for lat
 2. Stylize your text how you wish
 3. Create a paragraph style with your text frame selected
 4. Select your text frame
-5. Double click on stack_letters.jsx in the script panel
+5. Double click on `stack_letters.jsx` in the script panel
