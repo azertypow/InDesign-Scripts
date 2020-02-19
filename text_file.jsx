@@ -92,10 +92,10 @@ function loopOverText(text, rows, columns) {
                 coordinates[i][0] + 20
             );
 
-            myDocument.ovals.add(myLayer, undefined, undefined, {
+            /*myDocument.ovals.add(myLayer, undefined, undefined, {
                 geometricBounds: [coordinates[i][1] - 5, coordinates[i][0] - 5, coordinates[i][1] + 10, coordinates[i][0] + 10],
                 fill: "Black"
-            });
+            });*/
 
         }
     }

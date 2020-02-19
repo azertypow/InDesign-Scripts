@@ -45,6 +45,7 @@ function main() {
     if (myDocument.selection !== undefined && app.selection[0] !== undefined) {
         if (myDocument.selection.length === 1) {
             if (app.selection[0].toString() === "[object TextFrame]") {
+
                 textFrame = app.selection[0];
 
                 //var textContent = textFrame.contents;
@@ -55,13 +56,15 @@ function main() {
                 var flatMap = createFlatMap(marginWidth, marginHeight, height_divisions, width_divisions);
 
                 // create new layer
-                var jumbleLayer = createNumberedLayer("jumble")
+                var jumbleLayer = createNumberedLayer("jumble");
+                var guideLayer = createNumberedLayer("guides");
+                // Draw guide grid
+                drawGuideGrid(guideLayer, marginWidth, marginHeight, height_divisions, width_divisions);
 
                 // loop over words
                 for (var i = 0; i < textFrame.words.length; i++) {
                     var randomCoord = flatMap[getRandomInt(0, flatMap.length)];
                     var randomOrientation = getRandomInt(0, 2);
-                    alert(randomOrientation);
 
                     //alert(flatMap[i]);
                     createTextFrame(

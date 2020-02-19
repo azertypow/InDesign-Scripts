@@ -29,7 +29,7 @@ function main() {
         var texts = frame.texts[0];
         //alert(texts.appliedParagraphStyle.name);
 
-        createTextFrame(content, texts.appliedParagraphStyle, 0, 0, 100, 100);
+        createTextFrame(content, texts.appliedParagraphStyle, 50, 50, 100, 100);
     }
     else {
         alert("No valid selection, please select a text frame");
