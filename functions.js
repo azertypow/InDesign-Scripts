@@ -4,7 +4,7 @@
 // takes a string, creates a frame of text with this string
 function createTextFrame(string, paragraphStyle, layer, orientation, y1, x1) {
     //$.writeln(myDocument);
-    var myFrame = myDocument.textFrames.add(layer, undefined, undefined, {
+    var myFrame = app.activeDocument.layoutWindows[0].activePage.textFrames.add(layer, undefined, undefined, {
         geometricBounds: [y1, x1, y1 + 50, x1 + 50],
         contents: string,
         //rotationAngle: -90,
